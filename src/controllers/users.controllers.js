@@ -89,7 +89,11 @@ export const login = async (req, res) => {
     //creo data para enviarla al cliente con el proposito de guardarla en el localStorage,
     // para mostrar el nombre del  usuario en sesion
     const data = user[0].Name
-    res.status(202).json({ message: "sesion iniciada ", data})
+    res.status(202).json({
+        message: "sesion iniciada",
+        token,
+        data
+    })
 }
 
 export const logout = (req, res) => {
