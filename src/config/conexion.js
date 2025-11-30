@@ -1,15 +1,15 @@
 import mysql from 'mysql2/promise';
 //pool de conexiones en vez de createConection porque el pool permite que api no se sature con muchas consultas simultaneas
-  const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'latienda',
-    connectionLimit: 5
-  });
+ const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  connectionLimit: 5
+});
 
-  // test connection
-  pool.getConnection()
+// test connection
+pool.getConnection()
   .then(connection => {
     console.log('Conectados :)')
     connection.release()
