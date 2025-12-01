@@ -6,7 +6,8 @@ export const getAllProduct = async (req, res) => {
    if (rows.error) {
       return res.status(500).json({ error: "Algo salió mal" });
    }
-   (rows.length > 0) ? res.json(rows) : res.json({ message: "NO HAY PRODUCTOSSS" });
+   (rows.length > 0) ? res.json(rows) : res.json([]);
+
 }
 
 export const getProductById = async (req, res) => {
