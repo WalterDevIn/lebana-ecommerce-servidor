@@ -44,7 +44,13 @@ router.get('/logout', logout)
 
 //rutas protegidas
 router.get('/account', verifyToken, showAccount)
-router.put('/upDate', verifyToken, updateAccount)
+router.put(
+  '/account',
+  verifyToken,
+  upload.single("Image"),
+  updateAccount
+);
+
 router.put('/setPassword', verifyToken, setPassword)
 router.delete('/deleteAccount', verifyToken, deleteAccount)
 

@@ -146,17 +146,38 @@ export const showAccount = async (req, res) => {
 // ACTUALIZAR CUENTA
 // ============================
 export const updateAccount = async (req, res) => {
-    const rows = await model.updateUser(req.user.id, req.body);
+    try {
+        const data = {
+            Name: req.body.Name,
+            Email: req.body.Email
+        };
 
-    if (rows.errno) {
-        return res.status(500).json({ message: `Error en consulta ${rows.errno}` });
+        // Si mandaron nueva contraseña
+        if (req.body.Pass && req.body.Pass.trim() !== "") {
+            data.Pass = req.body.Pass;
+        }
+
+        // Si mandaron nueva imagen
+        if (req.file) {
+            data.Image = "image_users/" + req.file.filename;
+        }
+
+        const rows = await model.updateUser(req.user.id, data);
+
+        if (rows.errno) {
+            return res.status(500).json({ message: `Error en consulta ${rows.errno}` });
+        }
+
+        if (rows.affectedRows === 0) {
+            return res.status(404).json({ message: "El usuario no existe" });
+        }
+
+        res.json({ message: "datos actualizados" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error del servidor" });
     }
-
-    if (rows.affectedRows === 0) {
-        return res.status(404).json({ message: "El usuario no existe" });
-    }
-
-    res.json({ message: "datos actualizados" });
 };
 
 // ============================
